@@ -9,8 +9,7 @@ var exec = require('child_process').exec,
 	fs = require('fs'),
 	figlet = require('figlet'),
 	emoji = require('node-emoji'),
-	motivate = require('motivate'),
-	inquirer    = require('inquirer');
+	motivate = require('motivate');
 
 // Print cute intro text
 console.log(
@@ -32,7 +31,25 @@ if (argv.clean) {
 	cleanTitaniumProject();
 	// Run the arrow project on device
 	runCommand('appc run -p android -T device');
-} else if(argv.hello){
+} 
+
+else if(argv.twenty && argv.twenty == 'sim'){
+	// Clean titanium project
+	cleanTitaniumProject();
+	// Run the arrow project on device
+	runCommand('ti build -p ios --device-id');
+}
+
+else if(argv.iosCoreClean){
+	runCommand('launchctl remove com.apple.CoreSimulator.CoreSimulatorService || true');
+	enjoy();
+}
+
+else if(argv.showMe && argv.emoji && argv.count){
+	console.log(emojiSpam(argv.emoji, argv.count));
+}
+
+else if(argv.hello){
 	console.log(emojiSpam('sparkle', 3) + '    ' + emoji.get('heart') + emojiSpam('sparkle', 3));
 	// Print cute intro text
 	console.log(
@@ -44,17 +61,6 @@ if (argv.clean) {
 	console.log('\n' + emojiSpam('star', 5));
 	runCommand('motivate format');
 	console.log(emojiSpam('star', 5));
-
-	// inquirer.prompt([{
-	// 	name: 'appcDev',
-	// 	message: "Are you developing for appc in this terminal? [Y/N]",
-	// 	type: 'input',
-	// }]).then(answers => {
-	// 	if(answers = 'y'){
-	// 		runCommand('~/.nvm/versions/node/v4.4.4');
-	// 		enjoy();
-	// 	}
-	// });
 } else {
 	console.log(
 		chalk.red(
