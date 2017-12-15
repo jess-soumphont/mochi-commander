@@ -14,40 +14,44 @@ var exec = require('child_process').exec,
 var core = require('./core'),
 	arrowLib = require('./projects/arrow');
 
-// Print cute intro text
-console.log(
-	chalk.green(
-	    figlet.textSync('. . . Mochi . . .', { horizontalLayout: 'full' })
-	  )
-);
-
-// Check for values to run
+// Clean titanium projects
 if (argv.clean) {
 	core.cleanTitaniumProject();
 }
 
+// Commands for project ARROW
 if(argv.arrow){
-	arrowLib.sendArrowCommand(argv.arrow);
+	arrowLib.arrowCommander(argv.arrow);
 }
 
-
-else if(argv.twnty && argv.twnty == 'sim'){
+// Commands for project TWNTY
+if(argv.twnty && argv.twnty == 'sim'){
 	// Clean titanium project
 	core.cleanTitaniumProject();
 	// Run the arrow project on device
 	core.runCommand('ti build -p ios --device-id');
 }
 
-else if(argv.iosCoreClean){
+// Clean ios core simulator
+if(argv.iosCoreClean){
 	core.runCommand('launchctl remove com.apple.CoreSimulator.CoreSimulatorService || true');
 	core.enjoy();
 }
 
-else if(argv.showMe && argv.emoji && argv.count){
+// Silly command for showing different emoji
+if(argv.showMe && argv.emoji && argv.count){
 	console.log(core.emojiSpam(argv.emoji, argv.count));
 }
 
-else if(argv.hello){
+
+// Print cute intro text
+if(argv.hello){
+	console.log(
+		chalk.green(
+		    figlet.textSync('. . . Mochi . . .', { horizontalLayout: 'full' })
+		  )
+	);
+
 	console.log(core.emojiSpam('sparkle', 3) + '    ' + emoji.get('heart') + core.emojiSpam('sparkle', 3));
 	// Print cute intro text
 	console.log(
@@ -59,16 +63,7 @@ else if(argv.hello){
 	console.log('\n' + core.emojiSpam('star', 5));
 	core.runCommand('motivate format');
 	console.log(core.emojiSpam('star', 5));
-} else {
-	console.log(
-		chalk.red(
-		    figlet.textSync('SPICY MOCHI', { horizontalLayout: 'full' })
-		  )
-	);
-	console.log('Unknown command given');
-	// TODO: help text and config text
 }
-
 
 
 

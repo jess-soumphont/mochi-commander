@@ -17,7 +17,7 @@ var exec = require('child_process').exec,
  */
 function cleanTitaniumProject(){
 	runCommand('rm -rf build resources');
-	console.log(chalk.green('Removed build resources directories'));
+	console.log(chalk.green(emoji.get('icecream') + '   Removed build resources directories ' + emoji.get('icecream')));
 	runCommand('ti clean');
 	enjoy();
 }
@@ -55,6 +55,18 @@ function emojiSpam(emojiString, amount){
 	return spamString;
 }
 
+/**
+ * Display error text
+ * @return {Void}
+ */
+function  spicyMochi(){
+	console.log(
+		chalk.red(
+		    figlet.textSync('SPICY MOCHI', { horizontalLayout: 'full' })
+		  )
+	);
+}
+
 
 
 // Exposes functions
@@ -62,5 +74,6 @@ module.exports = {
 	cleanTitaniumProject: cleanTitaniumProject,
 	runCommand : runCommand,
 	enjoy: enjoy,
-	emojiSpam: emojiSpam
+	emojiSpam: emojiSpam,
+	spicyMochi : spicyMochi
 };
