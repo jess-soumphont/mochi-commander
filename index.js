@@ -11,6 +11,9 @@ var exec = require('child_process').exec,
 	emoji = require('node-emoji'),
 	motivate = require('motivate');
 
+var core = require('./core'),
+	arrowLib = require('./projects/arrow');
+
 // Print cute intro text
 console.log(
 	chalk.green(
@@ -20,47 +23,42 @@ console.log(
 
 // Check for values to run
 if (argv.clean) {
-	cleanTitaniumProject();
-} else if(argv.arrow && argv.arrow == 'emu'){
-	// Clean titanium project
-	cleanTitaniumProject();
-	// Run the arrow project on emulator
-	runCommand('ti build -p android --device-id');
-} else if(argv.arrow && argv.arrow == 'device'){
-	// Clean titanium project
-	cleanTitaniumProject();
-	// Run the arrow project on device
-	runCommand('appc run -p android -T device');
-} 
+	core.cleanTitaniumProject();
+}
 
-else if(argv.twenty && argv.twenty == 'sim'){
+if(argv.arrow){
+	arrowLib.sendArrowCommand(argv.arrow);
+}
+
+
+else if(argv.twnty && argv.twnty == 'sim'){
 	// Clean titanium project
-	cleanTitaniumProject();
+	core.cleanTitaniumProject();
 	// Run the arrow project on device
-	runCommand('ti build -p ios --device-id');
+	core.runCommand('ti build -p ios --device-id');
 }
 
 else if(argv.iosCoreClean){
-	runCommand('launchctl remove com.apple.CoreSimulator.CoreSimulatorService || true');
-	enjoy();
+	core.runCommand('launchctl remove com.apple.CoreSimulator.CoreSimulatorService || true');
+	core.enjoy();
 }
 
 else if(argv.showMe && argv.emoji && argv.count){
-	console.log(emojiSpam(argv.emoji, argv.count));
+	console.log(core.emojiSpam(argv.emoji, argv.count));
 }
 
 else if(argv.hello){
-	console.log(emojiSpam('sparkle', 3) + '    ' + emoji.get('heart') + emojiSpam('sparkle', 3));
+	console.log(core.emojiSpam('sparkle', 3) + '    ' + emoji.get('heart') + core.emojiSpam('sparkle', 3));
 	// Print cute intro text
 	console.log(
 		chalk.blue(
 		    figlet.textSync('Welcome, Jess', { horizontalLayout: 'full' })
 		  )
 	);
-	console.log(emojiSpam('sparkle', 3) + '    ' + emoji.get('heart') + emojiSpam('sparkle', 3));
-	console.log('\n' + emojiSpam('star', 5));
-	runCommand('motivate format');
-	console.log(emojiSpam('star', 5));
+	console.log(core.emojiSpam('sparkle', 3) + '    ' + emoji.get('heart') + core.emojiSpam('sparkle', 3));
+	console.log('\n' + core.emojiSpam('star', 5));
+	core.runCommand('motivate format');
+	console.log(core.emojiSpam('star', 5));
 } else {
 	console.log(
 		chalk.red(
@@ -71,43 +69,6 @@ else if(argv.hello){
 	// TODO: help text and config text
 }
 
-/**
- * Clean the titanium project
- * @return {Void}
- */
-function cleanTitaniumProject(){
-	runCommand('rm -rf build resources');
-	console.log(chalk.green('Removed build resources directories'));
-	runCommand('ti clean');
-	enjoy();
-}
-
-function enjoy(){
-	console.log(chalk.green('Enjoy ' + emoji.get('tea')));
-}
-
-/**
- * Creates a string of sparkle emojis based off the amount given
- * @param  {String} emojiString  Emoji to rpeat
- * @param  {Number} amount       How many sparkles to generate
- * @return {String}              String made of sparkles
- */
-function emojiSpam(emojiString, amount){
-	var spamString = '';
-	for(var ii=0; ii < amount; ii++){
-		spamString += '    ' + emoji.get(emojiString);
-	}
-	return spamString;
-}
 
 
-/**
- * Run the given command
- * @param  {String} command
- * @return {Void}
- */
-function runCommand(command){
-	return execSync(command, {
-		stdio: [0, 1, 2]
-	});
-}
+
