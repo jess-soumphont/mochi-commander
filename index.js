@@ -14,6 +14,15 @@ var exec = require('child_process').exec,
 var core = require('./core'),
 	arrowLib = require('./projects/arrow');
 
+// Open mochi for editing
+if(argv.edit){
+	var cmd = `cd /Users/jesssoumphont/Files/Training/mochi
+	sublime .`
+	exec(cmd, function(err, stdout, stderr) {
+        console.log(stdout);
+	});
+}
+
 // Clean titanium projects
 if (argv.clean) {
 	core.cleanTitaniumProject();
@@ -24,12 +33,24 @@ if(argv.arrow){
 	arrowLib.arrowCommander(argv.arrow);
 }
 
+if(argv.civic && argv.civic == 'sim'){
+	core.runCommand('ti build -p ios --device-id 91D128C3-54CE-48EA-A39D-80FE7ED3CB43');
+}
+
 // Commands for project TWNTY
 if(argv.twnty && argv.twnty == 'sim'){
 	// Clean titanium project
 	core.cleanTitaniumProject();
-	// Run the arrow project on device
+	// Run the TWNTY project on simulator
 	core.runCommand('ti build -p ios --device-id');
+}
+
+if(argv.encrypt){
+	require('./projects/twty').encrypt(argv.encrypt);
+}
+
+if(argv.appc && argv.appc=='device'){
+	core.runCommand('appc run -p ios -T device');
 }
 
 // Clean ios core simulator

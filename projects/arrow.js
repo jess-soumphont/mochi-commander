@@ -1,7 +1,7 @@
 // Items related  to project code ARROW
 
 var core = require('../core');
-var inquirer = require('inquirer');
+//var inquirer = require('inquirer');
 
 /**
  * Manages commands sent to the arrow lib
@@ -25,7 +25,7 @@ function arrowCommander(command){
 		default:
 			core.spicyMochi();
 			console.log(core.emojiSpam('lightning', 5) + '    Command not found ' + core.emojiSpam('lightning', 5));
-			arrowHelper();
+			//arrowHelper();
 			
 	}
 }
@@ -37,27 +37,29 @@ function arrowCommander(command){
  */
 function arrowHelper(){
 	// Ask user what they would like to do
-	inquirer.prompt([{
-		name: 'arrowHelper',
-		type: 'list',
-		message: 'You did not enter a known command. Would you like to select any of the following?',
-		choices: ['Build on Emulator', 'Build on Device', 'None'],
-		default: 'emu'
-	}]).then(answer => {
-	    switch(answer.arrowHelper){
-	    	case 'Build on Emulator':
-	    		arrowCommander('emu');
-	    	break;
+	// inquirer.prompt([{
+	// 	name: 'arrowHelper',
+	// 	type: 'list',
+	// 	message: 'You did not enter a known command. Would you like to select any of the following?',
+	// 	choices: ['Build on Emulator', 'Build on Device', 'None'],
+	// 	default: 'Build on Emulator'
+	// }]).then(answer => {
+	// 	if(answer && answer.arrowHelper){
+	// 	    switch(answer.arrowHelper){
+	// 	    	case 'Build on Emulator':
+	// 	    		arrowCommander('emu');
+	// 	    	break;
 
-	    	case 'Build on Device':
-	    		arrowCommander('device');
-	    	break;
+	// 	    	case 'Build on Device':
+	// 	    		arrowCommander('device');
+	// 	    	break;
 
-	    	default:
-	    		// do nothing
-	    		return;
-	    }
-	});
+	// 	    	default:
+	// 	    		// do nothing
+	// 	    		return;
+	// 	    }
+	// 	}
+	// });
 }
 
 // Exposes functions
